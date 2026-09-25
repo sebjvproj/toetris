@@ -1,8 +1,8 @@
 # TOetris — jeu de blocs pour Thomson TO9
 
-*Version « Saint-Basile »*. Un jeu de blocs qui tombent, écrit entièrement en assembleur 6809 pour le **Thomson TO9** (1985). Il reprend les règles de la version Game Boy de 1989 et utilise les graphismes 16 couleurs et le son du TO9. Il a été testé dans l'émulateur [DCMOTO](http://dcmoto.free.fr/), sur la sortie son CNA comme sur le buzzer.
+*Version « Saint-Basile »*. Une adaptation du **Tetris de la Game Boy** (Nintendo, 1989) pour le **Thomson TO9** (1985), écrite entièrement en assembleur 6809. Elle garde les règles, les vitesses et les rotations du Game Boy, mais utilise ses propres graphismes 16 couleurs et le son du TO9. Elle a été testée dans l'émulateur [DCMOTO](http://dcmoto.free.fr/), sur la sortie son CNA comme sur le buzzer.
 
-*A falling-blocks game for the Thomson TO9 8-bit computer, written in 6809 assembly (French UI).*
+*An adaptation of Game Boy Tetris (1989) for the Thomson TO9 8-bit computer, written in 6809 assembly (French UI).*
 
 L'adaptation a été entièrement vibecodée avec [Claude](https://claude.ai) (Anthropic) : code 6809, graphismes, musiques, simulateur et tests.
 *Entirely vibe-coded with Claude.*
