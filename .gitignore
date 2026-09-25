@@ -1,0 +1,25 @@
+# --- jamais publié ---
+# 1re version : contient des graphismes extraits de la ROM Game Boy (Nintendo)
+version_gameboy/
+*.gb
+*.GB
+# sauvegardes locales
+source.orig/
+
+# --- fichiers produits (publiés dans les Releases GitHub, pas dans le dépôt) ---
+disquettes/
+apercus/*.wav
+
+# --- produits par build.sh ---
+source/*.BIN
+source/*.fd
+source/*.lst
+source/gfx.asm
+source/music.asm
+source/bg_*.png
+
+# --- produits par les tests ---
+source/test/*.png
+source/test/*.wav
+
+__pycache__/
