@@ -2,7 +2,10 @@
 
 *Version « Saint-Basile »*. Un jeu de blocs qui tombent, écrit entièrement en assembleur 6809 pour le **Thomson TO9** (1985). Il reprend les règles de la version Game Boy de 1989 et utilise les graphismes 16 couleurs et le son du TO9. Il a été testé dans l'émulateur [DCMOTO](http://dcmoto.free.fr/), sur la sortie son CNA comme sur le buzzer.
 
-*A falling-blocks game for the Thomson TO9 8-bit computer, hand-written in 6809 assembly (French UI).*
+*A falling-blocks game for the Thomson TO9 8-bit computer, written in 6809 assembly (French UI).*
+
+L'adaptation a été entièrement vibecodée avec [Claude](https://claude.ai) (Anthropic) : code 6809, graphismes, musiques, simulateur et tests.
+*Entirely vibe-coded with Claude.*
 
 ![Écran titre](apercus/ecran_titre.png) ![En jeu](apercus/ecran_jeu.png)
 
