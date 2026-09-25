@@ -83,6 +83,9 @@ class TO9:
         self.cpu.program_counter.set(self.entry)
         self.cpu.cc.set(0x00) if hasattr(self.cpu, 'cc') else None
         self.getc_calls = 0
+        self.hooks = {}                     # adresse -> fonction(sim), appelée avant l'instruction
+        self.beam = None                    # activer avec beam_on() : écran tel que balayé
+        self._beam_line = -1
         self.held_until = 0
 
     @property
@@ -91,6 +94,12 @@ class TO9:
 
     def io_read(self, a):
         if a == 0xE7C3: return self.prc
+        if a == 0xE7C6:                               # compteur du timer 6846 (octet fort ; l'octet
+            if self.next_irq is None: v = self.tlatch   # faible est figé jusqu'à sa lecture)
+            else: v = max(0, min(self.tlatch, self.next_irq - self.cpu.cycles - 1))
+            self._tlsb = v & 0xFF
+            return v >> 8
+        if a == 0xE7C7: return getattr(self, '_tlsb', 0)
         if a == 0xE7C1: return self.pcr
         if a == 0xE7C8: return 0xFE | (1 if self.held_until > self.frame else 0)
         if a == 0xE7E7:
@@ -133,17 +142,22 @@ class TO9:
         while cpu.cycles < end:
             # l'IRQ d'abord : si elle tombe à l'entrée de GETC, la touche ne doit être
             # remise qu'au retour, sinon elle serait perdue (écrasée par le 2e passage)
+            # le timer 6846 lève son drapeau d'IRQ ; il reste en attente tant que les IRQ
+            # sont masquées (une seule en attente, comme sur le vrai circuit)
             if self.next_irq is not None and cpu.cycles >= self.next_irq:
                 self.next_irq += self.tlatch + 1
-                if not cpu.I:
-                    self.irq_count += 1
-                    cpu.E = 1
-                    cpu.push_irq_registers()
-                    cpu.I = 1
-                    cpu.cycles += 19 + self.mon_overhead
-                    cpu.program_counter.set(0xF000)
-                    continue
+                self.irq_pending = True
+            if getattr(self, 'irq_pending', False) and not cpu.I:
+                self.irq_pending = False
+                self.irq_count += 1
+                cpu.E = 1
+                cpu.push_irq_registers()
+                cpu.I = 1
+                cpu.cycles += 19 + self.mon_overhead
+                cpu.program_counter.set(0xF000)
+                continue
             pc = cpu.program_counter.value
+            if pc in self.hooks: self.hooks[pc](self)     # crochets de test (adresse -> fonction)
             if pc == 0xE806:
                 self.getc_calls += 1
                 f = self.frame
@@ -153,6 +167,15 @@ class TO9:
             elif pc == 0xE803:
                 self.putc.append(cpu.accu_b.value)
             cpu.get_and_call_next_op()
+            if self.beam is not None:                 # image vue par le faisceau, ligne par ligne
+                line = (cpu.cycles % CYC_FRAME) // CYC_LINE
+                if line != self._beam_line:
+                    # une instruction longue ou une entrée d'IRQ peut sauter des lignes : on les copie aussi
+                    first = self._beam_line + 1 if 0 <= self._beam_line < line else line
+                    self._beam_line = line
+                    for l in range(first, min(line, 199) + 1):
+                        o = l * 40
+                        self.beam[l] = (bytes(self.mem.vram[0][o:o + 40]), bytes(self.mem.vram[1][o:o + 40]))
 
     def hold(self, code, frames):
         """touche maintenue : appui, répétition après 800 ms puis toutes les 70 ms"""
@@ -193,6 +216,14 @@ class TO9:
         # rendu 4:3 approximatif (pixels deux fois plus hauts)
         im = im.resize((320 * scale, 200 * scale * 6 // 5), Image.NEAREST)
         im.save(path)
+
+    def beam_on(self):
+        self.beam = [(bytes(40), bytes(40))] * 200
+
+    def beam_pixels(self):
+        """pixels (index de palette) de la dernière image balayée par le faisceau"""
+        return [[v for xb in range(40) for v in (a[xb] >> 4, a[xb] & 15, b[xb] >> 4, b[xb] & 15)]
+                for a, b in self.beam]
 
     def peek(self, a): return self.mem.ram[a]
 
