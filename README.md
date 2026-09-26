@@ -7,11 +7,14 @@
 L'adaptation a été entièrement vibecodée avec [Claude](https://claude.ai) (Anthropic) : code 6809, graphismes, musiques, simulateur et tests.
 *Entirely vibe-coded with Claude.*
 
+![TOetris : la boîte, le manuel et la disquette](apercus/boite.jpg)
+*Une boîte imaginaire, à la manière des jeux Thomson des années 80 (image générée par IA).*
+
 ![Écran titre](apercus/ecran_titre.png) ![En jeu](apercus/ecran_jeu.png)
 
 ![Une partie (pilote automatique dans le simulateur)](apercus/toetris.gif)
 
-> TOetris est un projet amateur, sans lien avec The Tetris Company ni avec Nintendo. Tetris est une marque de The Tetris Company. Le dépôt ne contient aucune donnée issue d'un jeu du commerce : graphismes, musiques et code ont été écrits pour ce projet.
+> TOetris est un projet amateur, sans lien avec The Tetris Company, Nintendo, Thomson ou France Image Logiciel. Tetris est une marque de The Tetris Company. Le dépôt ne contient aucune donnée issue d'un jeu du commerce : graphismes, musiques et code ont été écrits pour ce projet.
 
 ## Jouer
 
