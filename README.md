@@ -9,6 +9,8 @@ L'adaptation a été entièrement vibecodée avec [Claude](https://claude.ai) (A
 
 ![Écran titre](apercus/ecran_titre.png) ![En jeu](apercus/ecran_jeu.png)
 
+![Une partie (pilote automatique dans le simulateur)](apercus/toetris.gif)
+
 > TOetris est un projet amateur, sans lien avec The Tetris Company ni avec Nintendo. Tetris est une marque de The Tetris Company. Le dépôt ne contient aucune donnée issue d'un jeu du commerce : graphismes, musiques et code ont été écrits pour ce projet.
 
 ## Jouer
@@ -67,7 +69,7 @@ sh build.sh        # -> TOETRIS.BIN, TOETRIS0.BIN (sans son), TOETRIS.fd
 | `gfx.py`, `maqlib.py` | graphismes (fonds dessinés par programme, cases, police) → `gfx.asm` |
 | `music.py` | musiques et bruitages → `music.asm` |
 | `make_fd.py` | fabrique la disquette au format Thomson DOS |
-| `test/` | simulateur TO9 et tests |
+| `test/` | simulateur TO9, tests, et `film.py` (une partie jouée par un pilote automatique → `apercus/toetris.gif`) |
 
 ### Tests
 
