@@ -23,6 +23,7 @@ JOYDIR  EQU     $E7CC           ; PIA jeux : directions (0 = appuyé)
 JOYBTN  EQU     $E7CD           ; PIA jeux : bits0-5 = CNA, bit6 = bouton 1
 JOYCRA  EQU     $E7CE
 JOYCRB  EQU     $E7CF
+MACHID  EQU     $FFF0           ; identification de la machine (ROM) : TO9 2, TO8 3, TO9+ 6
 PALDAT  EQU     $E7DA
 PALIDX  EQU     $E7DB
 VMODE   EQU     $E7DC
@@ -56,8 +57,12 @@ SNDENABLE FCB   1               ; 0 = version sans son (TOETRIS0), voir build.sh
 START1  LDB     #$14            ; curseur invisible
         JSR     PUTC
         JSR     INITVARS
-        LDA     #8              ; correspondance palette TO9 (voir SETPAL)
+        LDA     MACHID          ; correspondance palette (voir SETPAL) : décalée de 8 sur TO9 (2),
+        CMPA    #2              ; directe sur TO8 (3), TO9+ (6)...
+        BNE     STPX
+        LDA     #8
         STA     PALX
+STPX
         LDA     #$7B            ; bitmap 16 couleurs
         STA     VMODE
         LDA     #16
@@ -1941,7 +1946,8 @@ IV2     STD     ,X++
         RTS
 
 * palette avec assombrissement FADEK (0 = normal, 16 = noir)
-* le TO9 range l'entrée k dans la couleur k xor 8 : on écrit PAL[k xor PALX]
+* le TO9 range l'entrée k dans la couleur k xor 8 : on écrit PAL[k xor PALX] (PALX = 8 sur TO9,
+* 0 sur TO8 et TO9+)
 SETPAL  PSHS    D,X,Y
         CLR     PALIDX
         CLRB
