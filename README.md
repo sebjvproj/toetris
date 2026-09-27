@@ -1,8 +1,8 @@
-# TOetris — jeu de blocs pour Thomson TO9
+# TOetris — jeu de blocs pour Thomson TO8, TO9 et TO9+
 
-*Version « Saint-Basile »*. Une adaptation du **Tetris de la Game Boy** (Nintendo, 1989) pour le **Thomson TO9** (1985), écrite entièrement en assembleur 6809. Elle garde les règles, les vitesses et les rotations du Game Boy, mais utilise ses propres graphismes 16 couleurs et le son du TO9. Elle a été testée dans l'émulateur [DCMOTO](http://dcmoto.free.fr/), sur la sortie son CNA comme sur le buzzer.
+*Version « Saint-Basile »*. Une adaptation du **Tetris de la Game Boy** (Nintendo, 1989) pour le **Thomson TO9** (1985), écrite entièrement en assembleur 6809. Elle tourne aussi sur **TO8** et **TO9+**. Elle garde les règles, les vitesses et les rotations du Game Boy, mais utilise ses propres graphismes 16 couleurs et le son du TO9. Elle a été testée dans l'émulateur [DCMOTO](http://dcmoto.free.fr/), sur la sortie son CNA comme sur le buzzer.
 
-*An adaptation of Game Boy Tetris (1989) for the Thomson TO9 8-bit computer, written in 6809 assembly (French UI).*
+*An adaptation of Game Boy Tetris (1989) for the Thomson TO8, TO9 and TO9+ 8-bit computers, written in 6809 assembly (French UI).*
 
 L'adaptation a été entièrement vibecodée avec [Claude](https://claude.ai) (Anthropic) : code 6809, graphismes, musiques, simulateur et tests.
 *Entirely vibe-coded with Claude.*
@@ -18,10 +18,12 @@ L'adaptation a été entièrement vibecodée avec [Claude](https://claude.ai) (A
 
 ## Jouer
 
-Téléchargez `TOETRIS_TO9.fd` depuis la page [Releases](../../releases).
+Téléchargez `TOETRIS.fd` depuis la page [Releases](../../releases).
 
-1. Dans DCMOTO, choisissez la machine **TO9**, puis *Supports amovibles > Disquettes > Charger* `TOETRIS_TO9.fd`.
-2. Redémarrez et choisissez **3 - BASIC 128** dans le menu du TO9. Le BASIC 1.0 ne sait pas lire la disquette.
+1. Dans DCMOTO, choisissez la machine **TO9**, **TO8** ou **TO9+**, puis *Supports amovibles > Disquettes > Charger* `TOETRIS.fd`.
+2. Redémarrez, puis choisissez au menu :
+   - sur **TO9** : **3 - BASIC 128** (le BASIC 1.0 ne sait pas lire la disquette) ;
+   - sur **TO8** et **TO9+** : le **BASIC 512**.
 3. Tapez `RUN"TOETRIS"`, ou bien `CLEAR,&H9FFF:LOADM"TOETRIS",,R`.
    Pour la version sans son : `RUN"TOETRIS0"`.
 
@@ -103,6 +105,7 @@ python3 t_wav.py   # enregistre chaque musique en WAV
 Pièges rencontrés, utiles pour d'autres projets TO9 :
 
 - le BASIC 1.0 du TO9 n'a pas le DOS : il faut passer par le BASIC 128 ;
+- la palette du TO9 est décalée : la couleur k se programme dans l'entrée k xor 8, ce qui n'est pas le cas sur TO8 et TO9+. L'octet `$FFF0` de la ROM identifie la machine (TO9 : 2, TO8 : 3, TO9+ : 6), et le jeu s'adapte au démarrage ;
 - le DOS Thomson n'utilise que 255 octets par secteur ;
 - le moniteur **saute** (`JMP`) vers la routine `TIMEPT` : il faut en sortir par `JMP $E830`, pas par `RTS`.
 
