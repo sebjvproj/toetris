@@ -1,6 +1,6 @@
 # TOetris — jeu de blocs pour Thomson TO8, TO9 et TO9+
 
-**Pour jouer sans connaître GitHub : [la page de présentation](https://sebjvproj.github.io/toetris/), avec la disquette à télécharger et le mode d'emploi pas à pas.**
+**Pour jouer sans connaître GitHub : [la page de présentation](https://sebjvproj.github.io/toproj/toetris/), avec la disquette à télécharger et le mode d'emploi pas à pas.**
 
 *Version « Saint-Basile »*. Une adaptation du **Tetris de la Game Boy** (Nintendo, 1989) pour le **Thomson TO9** (1985), écrite entièrement en assembleur 6809. Elle tourne aussi sur **TO8** et **TO9+**. Elle garde les règles, les vitesses et les rotations du Game Boy, mais utilise ses propres graphismes 16 couleurs et le son du TO9. Elle a été testée dans l'émulateur [DCMOTO](http://dcmoto.free.fr/), sur la sortie son CNA comme sur le buzzer.
 
